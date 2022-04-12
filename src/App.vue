@@ -1,13 +1,50 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+    <b-button @click="signIn">Click me</b-button>
   </div>
 </template>
-
+<script>
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+export default {
+  created() {
+    this.logIn();
+  },
+  methods: {
+    async logIn() {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, "jeyker.salinas13@gmail.com", "123456")
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          console.log(errorCode);
+        });
+    },
+    async signIn() {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, "rebeca@gmail.com", "jeykerteamo")
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          console.log(error);
+          // ..
+        });
+    },
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
