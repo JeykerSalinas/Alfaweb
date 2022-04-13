@@ -1,6 +1,10 @@
 <template>
   <div id="app">
+    <b-navbar type="dark" variant="dark">
+      <b-navbar-brand tag="h1" class="mb-0">Alfa-web</b-navbar-brand>
+    </b-navbar>
     <b-button @click="signIn">Click me</b-button>
+    <router-view></router-view>
   </div>
 </template>
 <script>
