@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -9,6 +10,9 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView,
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     path: "/login",
@@ -36,13 +40,23 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    meta: {
+      requireAuth: true,
+    },
   },
+  { path: "*", redirect: "/" },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuth = store.state.isAuth;
+  if (to.meta.requireAuth && !isAuth) next("/login");
+  else next();
 });
 
 export default router;

@@ -1,73 +1,30 @@
 <template>
   <div id="app">
-    <b-navbar type="dark" variant="dark">
-      <b-navbar-brand tag="h1" class="mb-0">Alfa-web</b-navbar-brand>
+    <b-navbar type="ligth" class="px-5 border-bottom shadow-sm">
+      <b-navbar-brand tag="h1" class="mb-0">Alfaweb</b-navbar-brand>
+      <b-navbar-nav class="ms-auto">
+        <b-nav-item>
+          {{ currentUser.email }}
+        </b-nav-item>
+      </b-navbar-nav>
     </b-navbar>
-    <b-button @click="signIn">Click me</b-button>
     <router-view></router-view>
   </div>
 </template>
 <script>
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { mapState } from "vuex";
 export default {
-  created() {
-    this.logIn();
-  },
-  methods: {
-    async logIn() {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, "jeyker.salinas13@gmail.com", "123456")
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log(user);
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          console.log(errorCode);
-        });
-    },
-    async signIn() {
-      const auth = getAuth();
-      createUserWithEmailAndPassword(auth, "rebeca@gmail.com", "jeykerteamo")
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log(user);
-          // ...
-        })
-        .catch((error) => {
-          console.log(error);
-          // ..
-        });
-    },
+  name: "App",
+  computed: {
+    ...mapState(["currentUser"]),
   },
 };
 </script>
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Montserrat", sans-serif;
+  color: #05194e;
+  box-sizing: border-box;
   text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>

@@ -26,12 +26,20 @@
               required
             ></b-form-input>
           </b-form-group>
-          <b-button class="m-4" @click="onSubmit" variant="primary"
-            >Submit</b-button
+          <b-button class="m-4" @click="onLogin" variant="primary"
+            >Login</b-button
           >
           <b-button class="m-4" @click="onReset" variant="danger"
             >Reset</b-button
           >
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <p>
+            No estás registrado? Subscríbete
+            <router-link to="/signin"> aquí</router-link>
+          </p>
         </b-col>
       </b-row>
     </b-container>
@@ -40,6 +48,7 @@
 
 <script>
 import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -51,7 +60,7 @@ export default {
   },
   methods: {
     ...mapActions(["logIn"]),
-    onSubmit() {
+    onLogin() {
       this.logIn(this.form);
     },
     onReset() {
