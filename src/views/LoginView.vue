@@ -37,8 +37,8 @@
       <b-row>
         <b-col>
           <p>
-            No estás registrado? Subscríbete
-            <router-link to="/signin"> aquí</router-link>
+            No estás registrad@? Subscríbete
+            <router-link to="/signup"> aquí</router-link>
           </p>
         </b-col>
       </b-row>

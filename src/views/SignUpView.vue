@@ -26,12 +26,20 @@
               required
             ></b-form-input>
           </b-form-group>
-          <b-button class="m-4" @click="onSignin" variant="primary"
-            >SignIn</b-button
+          <b-button class="m-4" @click="onSignUp" variant="primary"
+            >Sign Up</b-button
           >
           <b-button class="m-4" @click="onReset" variant="danger"
             >Reset</b-button
           >
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <p>
+            Regresar a la página de
+            <router-link to="/login"> ingreso</router-link>
+          </p>
         </b-col>
       </b-row>
     </b-container>
@@ -50,9 +58,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["signIn"]),
-    onSignin() {
-      this.signIn(this.form);
+    ...mapActions(["signUp"]),
+    onSignUp() {
+      this.signUp(this.form);
     },
     onReset() {
       this.form.email = "";

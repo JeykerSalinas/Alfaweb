@@ -6,12 +6,19 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/helpers/firebase";
 import router from "../router";
-// import auth from "./auth";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: { isAuth: false, currentUser: { email: "", id: "" } },
+  state: {
+    isAuth: true,
+    currentUser: { email: "", id: "" },
+    courses: [],
+    currentCourse: {},
+  },
   getters: {},
   mutations: {
     SET_AUTH(state, payload) {
@@ -20,9 +27,18 @@ export default new Vuex.Store({
     SET_CURRENT_USER(state, payload) {
       state.currentUser = payload;
     },
+    SET_COURSES(state, payload) {
+      state.courses.push(payload);
+    },
+    SET_CURRENT_COURSE(state, payload) {
+      state.currentCourse = payload;
+    },
+    DELETE_COURSE(state, payload) {
+      state.courses = state.courses.filter((course) => course.id !== payload);
+    },
   },
   actions: {
-    async signIn({ commit }, payload) {
+    async signUp({ commit }, payload) {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, payload.email, payload.password)
         .then((userCredential) => {
@@ -30,7 +46,8 @@ export default new Vuex.Store({
           const user = userCredential.user;
           console.log(user);
           commit("SET_AUTH", true);
-          commit("SET_CURRENT_USER", { email: "hola", id: "chao" });
+          commit("SET_CURRENT_USER", { email: user.email, id: user.uid });
+          router.push("/");
           // ...
         })
         .catch((error) => {
@@ -61,12 +78,24 @@ export default new Vuex.Store({
       signOut(auth)
         .then(() => {
           commit("SET_AUTH", false);
+          commit("SET_CURRENT_USER", { email: "", id: "" });
           router.push("/login");
           console.log(auth);
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    async getCourses({ commit }) {
+      const querySnapshot = await getDocs(collection(db, "Cursos"));
+      querySnapshot.docs.map((doc) => {
+        console.log(doc.data());
+        commit("SET_COURSES", { ...doc.data(), id: doc.id });
+      });
+    },
+    async deleteCourse({ commit }, payload) {
+      await deleteDoc(doc(db, "Cursos", payload));
+      commit("DELETE_COURSE", payload);
     },
   },
   modules: {},

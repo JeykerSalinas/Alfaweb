@@ -1,26 +1,55 @@
 <template>
   <div id="app">
-    <b-navbar type="ligth" class="px-5 border-bottom shadow-sm">
-      <b-navbar-brand tag="h1" class="mb-0">Alfaweb</b-navbar-brand>
-      <b-navbar-nav class="ms-auto">
-        <b-nav-item>
-          {{ currentUser.email }}
-        </b-nav-item>
-      </b-navbar-nav>
-    </b-navbar>
+    <div>
+      <b-navbar toggleable="lg" class="px-5 border-bottom shadow-sm mb-5">
+        <b-navbar-brand tag="h1" class="mb-0">Alfaweb</b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item>
+              <router-link to="/administration" style="text-decoration: none">
+                Administración</router-link
+              >
+            </b-nav-item>
+            <b-nav-item>
+              <router-link to="/home" style="text-decoration: none"
+                >Home</router-link
+              >
+            </b-nav-item>
+            <b-nav-item>
+              {{ currentUser.email }}
+              <b-icon-box-arrow-in-right
+                @click="signOut"
+              ></b-icon-box-arrow-in-right>
+            </b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
     <router-view></router-view>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "App",
   computed: {
     ...mapState(["currentUser"]),
   },
+  mounted() {
+    this.getCourses();
+  },
+  methods: {
+    ...mapActions(["logOut", "getCourses"]),
+    signOut() {
+      this.logOut();
+    },
+  },
 };
 </script>
-<style lang="scss">
+<style>
 #app {
   font-family: "Montserrat", sans-serif;
   color: #05194e;
