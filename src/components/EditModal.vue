@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-modal id="createModal" hide-header-close>
+      <b-modal id="editModal" hide-header-close>
         <div>
           <b-card bg-variant="light">
             <b-form-group
@@ -10,7 +10,7 @@
               label-class="fw-bold pt-0"
               class="mb-0"
             >
-              <p>{{ fecha }}</p>
+              <p>{{ fecha }} Hola soy el edit</p>
               <b-form-group>
                 <b-form-input
                   v-model="newCourse.nombre"
@@ -93,64 +93,25 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "CreateModal",
   data() {
     return {
-      newCourse: {
-        nombre: "",
-        img: "",
-        cupos: 0,
-        inscritos: 0,
-        duracion: 0,
-        costo: 0,
-        descripcion: "",
-        estado: false,
-      },
-      codigo: "",
-      fecha: new Date().toLocaleDateString("en-GB"),
+      currentCourse: { ...this.currentCourse },
     };
   },
   computed: {
-    ...mapGetters(["getCodes"]),
+    ...mapState(["currentCourse"]),
   },
   mounted() {
     this.codeGenerator(0);
   },
   methods: {
-    codeGenerator(num) {
-      const myArr = this.getCodes.map((course) => Number(course.slice(1)));
-      return myArr.includes(num)
-        ? this.codeGenerator(num + 1)
-        : (this.codigo =
-            "C" +
-            String(num).padStart(
-              String(num).length + 4 - String(num).length,
-              "0"
-            ));
-    },
     cleanForm() {
-      this.newCourse = {
-        nombre: "",
-        img: "",
-        cupos: 0,
-        inscritos: 0,
-        duracion: 0,
-        costo: 0,
-        descripcion: "",
-        estado: false,
-      };
+      this.newCourse = {};
     },
-    ...mapActions(["addCourse"]),
-    createCurr() {
-      const newcourse = {
-        ...this.newCourse,
-        fecha: this.fecha,
-        codigo: this.codigo,
-      };
-      this.addCourse(newcourse);
-    },
+    ...mapActions(["setCourse"]),
   },
 };
 </script>

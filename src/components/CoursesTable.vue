@@ -18,7 +18,8 @@
             variant="primary"
             size="sm"
             class="ms-1"
-            @click="click(data.item.id)"
+            @click="setCourse(data.item)"
+            v-b-modal.editModal
           >
             <b-icon-pencil-fill></b-icon-pencil-fill>
           </b-button>
@@ -35,16 +36,19 @@
       </b-table>
     </b-container>
     <DeleteModal />
+    <EditModal />
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from "vuex";
 import DeleteModal from "@/components/DeleteModal.vue";
+import EditModal from "@/components/EditModal.vue";
 export default {
   name: "CoursesTable",
   components: {
     DeleteModal,
+    EditModal,
   },
   data() {
     return {

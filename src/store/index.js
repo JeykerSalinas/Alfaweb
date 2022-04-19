@@ -6,7 +6,13 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  addDoc,
+} from "firebase/firestore";
 import { db } from "@/helpers/firebase";
 import router from "../router";
 
@@ -19,7 +25,11 @@ export default new Vuex.Store({
     courses: [],
     currentCourse: {},
   },
-  getters: {},
+  getters: {
+    getCodes(state) {
+      return state.courses.map((course) => course.codigo);
+    },
+  },
   mutations: {
     SET_AUTH(state, payload) {
       state.isAuth = payload;
@@ -35,6 +45,9 @@ export default new Vuex.Store({
     },
     DELETE_COURSE(state, payload) {
       state.courses = state.courses.filter((course) => course.id !== payload);
+    },
+    ADD_COURSE(state, payload) {
+      state.courses.push(payload);
     },
   },
   actions: {
@@ -96,6 +109,14 @@ export default new Vuex.Store({
     async deleteCourse({ commit }, payload) {
       await deleteDoc(doc(db, "Cursos", payload));
       commit("DELETE_COURSE", payload);
+    },
+    async addCourse({ commit }, payload) {
+      try {
+        await addDoc(collection(db, "Cursos"), payload);
+        commit("ADD_COURSE", payload);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   modules: {},
