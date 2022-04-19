@@ -8,17 +8,19 @@
     </div>
     <CoursesTable />
     <CreateModal />
+    <InfoComponent />
   </b-container>
 </template>
 <script>
 import CoursesTable from "@/components/CoursesTable.vue";
 import CreateModal from "@/components/CreateModal.vue";
-
+import InfoComponent from "@/components/InfoComponent.vue";
 export default {
   name: "AdministrationView",
   components: {
     CoursesTable,
     CreateModal,
+    InfoComponent,
   },
 };
 </script>

@@ -30,6 +30,27 @@ export default new Vuex.Store({
     getCodes(state) {
       return state.courses.map((course) => course.codigo);
     },
+    getInfo(state) {
+      const info = {
+        allowed: state.courses
+          .map((course) => course.cupos)
+          .reduce((a, b) => a + b, 0),
+        subscribed: state.courses
+          .map((course) => course.inscritos)
+          .reduce((a, b) => a + b, 0),
+        avaible:
+          state.courses
+            .map((course) => course.cupos)
+            .reduce((a, b) => a + b, 0) -
+          state.courses
+            .map((course) => course.inscritos)
+            .reduce((a, b) => a + b, 0),
+        finished: state.courses.filter((course) => !course.estado).length,
+        active: state.courses.filter((course) => course.estado).length,
+        totalCourses: state.courses.length,
+      };
+      return info;
+    },
   },
   mutations: {
     SET_AUTH(state, payload) {
