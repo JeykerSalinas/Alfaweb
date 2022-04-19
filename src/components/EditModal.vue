@@ -10,23 +10,23 @@
               label-class="fw-bold pt-0"
               class="mb-0"
             >
-              <p>{{ fecha }} Hola soy el edit</p>
+              <p>{{ currentCourse.fecha }} Hola soy el edit</p>
               <b-form-group>
                 <b-form-input
-                  v-model="newCourse.nombre"
+                  v-model="currentCourse.nombre"
                   placeholder="Nombre"
                 ></b-form-input>
               </b-form-group>
               <b-form-group label="Logo del curso" label-for="imgCourse">
                 <b-form-input
                   id="nested-street"
-                  v-model="newCourse.img"
+                  v-model="currentCourse.img"
                   placeholder="URL"
                 ></b-form-input>
               </b-form-group>
               <b-form-group label="Cupos" label-for="cupos">
                 <b-form-input
-                  v-model="newCourse.cupos"
+                  v-model="currentCourse.cupos"
                   id="cupos"
                   placeholder="0"
                   type="number"
@@ -34,7 +34,7 @@
               </b-form-group>
               <b-form-group label="Inscritos" label-for="inscritos">
                 <b-form-input
-                  v-model="newCourse.inscritos"
+                  v-model="currentCourse.inscritos"
                   id="inscritos"
                   placeholder="0"
                   type="number"
@@ -42,7 +42,7 @@
               </b-form-group>
               <b-form-group label="Duración (meses)" label-for="duracion">
                 <b-form-input
-                  v-model="newCourse.duracion"
+                  v-model="currentCourse.duracion"
                   id="duracion"
                   placeholder="0"
                   type="number"
@@ -50,7 +50,7 @@
               </b-form-group>
               <b-form-group label="Costo" label-for="costo">
                 <b-form-input
-                  v-model="newCourse.costo"
+                  v-model="currentCourse.costo"
                   id="costo"
                   placeholder="0"
                   type="number"
@@ -61,7 +61,7 @@
                   id="codigo"
                   readonly
                   type="text"
-                  v-model="codigo"
+                  v-model="currentCourse.codigo"
                 ></b-form-input>
               </b-form-group>
               <b-form-group label="Descripción" label-for="textarea">
@@ -70,22 +70,17 @@
                   placeholder="Enter something..."
                   rows="3"
                   max-rows="6"
-                  v-model="newCourse.descripcion"
+                  v-model="currentCourse.descripcion"
                 ></b-form-textarea>
-              </b-form-group>
-              <b-form-group class="py-2">
-                <b-button variant="warning" @click="cleanForm"
-                  >Limpiar formulario</b-button
-                >
               </b-form-group>
             </b-form-group>
           </b-card>
         </div>
-        <template #modal-cancel
-          ><span @click="cleanForm">Cancelar</span></template
-        >
+        <template #modal-cancel><span>Cancelar</span></template>
         <template #modal-ok>
-          <span @click="createCurr">Crear curso</span></template
+          <span @click="updateCourse(currentCourse)"
+            >Actualizar curso</span
+          ></template
         >
       </b-modal>
     </div>
@@ -95,23 +90,12 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
-  name: "CreateModal",
-  data() {
-    return {
-      currentCourse: { ...this.currentCourse },
-    };
-  },
+  name: "EditModal",
   computed: {
     ...mapState(["currentCourse"]),
   },
-  mounted() {
-    this.codeGenerator(0);
-  },
   methods: {
-    cleanForm() {
-      this.newCourse = {};
-    },
-    ...mapActions(["setCourse"]),
+    ...mapActions(["updateCourse"]),
   },
 };
 </script>

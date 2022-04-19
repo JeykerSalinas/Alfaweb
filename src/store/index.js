@@ -12,6 +12,7 @@ import {
   deleteDoc,
   doc,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "@/helpers/firebase";
 import router from "../router";
@@ -41,7 +42,7 @@ export default new Vuex.Store({
       state.courses.push(payload);
     },
     SET_CURRENT_COURSE(state, payload) {
-      state.currentCourse = payload;
+      state.currentCourse = { ...payload };
     },
     DELETE_COURSE(state, payload) {
       state.courses = state.courses.filter((course) => course.id !== payload);
@@ -57,7 +58,6 @@ export default new Vuex.Store({
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
           commit("SET_AUTH", true);
           commit("SET_CURRENT_USER", { email: user.email, id: user.uid });
           router.push("/");
@@ -69,13 +69,11 @@ export default new Vuex.Store({
         });
     },
     async logIn({ commit }, payload) {
-      console.log(payload.email);
       const auth = getAuth();
       signInWithEmailAndPassword(auth, payload.email, payload.password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
           commit("SET_AUTH", true);
           commit("SET_CURRENT_USER", { email: user.email, id: user.uid });
           router.push("/");
@@ -93,7 +91,6 @@ export default new Vuex.Store({
           commit("SET_AUTH", false);
           commit("SET_CURRENT_USER", { email: "", id: "" });
           router.push("/login");
-          console.log(auth);
         })
         .catch((error) => {
           console.log(error);
@@ -102,7 +99,6 @@ export default new Vuex.Store({
     async getCourses({ commit }) {
       const querySnapshot = await getDocs(collection(db, "Cursos"));
       querySnapshot.docs.map((doc) => {
-        console.log(doc.data());
         commit("SET_COURSES", { ...doc.data(), id: doc.id });
       });
     },
@@ -112,7 +108,17 @@ export default new Vuex.Store({
     },
     async addCourse({ commit }, payload) {
       try {
-        await addDoc(collection(db, "Cursos"), payload);
+        const docRef = await addDoc(collection(db, "Cursos"), payload);
+        console.log(docRef.id);
+        commit("ADD_COURSE", { ...payload, id: docRef.id });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateCourse({ commit }, payload) {
+      try {
+        await updateDoc(doc(db, "Cursos", payload.id), payload);
+        commit("DELETE_COURSE", payload.id);
         commit("ADD_COURSE", payload);
       } catch (error) {
         console.log(error);

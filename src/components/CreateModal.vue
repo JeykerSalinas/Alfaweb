@@ -10,8 +10,8 @@
               label-class="fw-bold pt-0"
               class="mb-0"
             >
-              <p>{{ fecha }}</p>
               <b-form-group>
+                <p>{{ fecha }}</p>
                 <b-form-input
                   v-model="newCourse.nombre"
                   placeholder="Nombre"
@@ -112,11 +112,13 @@ export default {
       fecha: new Date().toLocaleDateString("en-GB"),
     };
   },
+  mounted() {
+    this.$root.$on("bv::modal::show", () => {
+      this.codeGenerator(0);
+    });
+  },
   computed: {
     ...mapGetters(["getCodes"]),
-  },
-  mounted() {
-    this.codeGenerator(0);
   },
   methods: {
     codeGenerator(num) {
@@ -144,12 +146,14 @@ export default {
     },
     ...mapActions(["addCourse"]),
     createCurr() {
-      const newcourse = {
+      const newCourse = {
         ...this.newCourse,
         fecha: this.fecha,
         codigo: this.codigo,
       };
-      this.addCourse(newcourse);
+      this.addCourse(newCourse);
+      this.cleanForm();
+      this.codeGenerator(0);
     },
   },
 };
