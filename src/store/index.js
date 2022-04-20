@@ -45,8 +45,8 @@ export default new Vuex.Store({
           state.courses
             .map((course) => course.inscritos)
             .reduce((a, b) => a + b, 0),
-        finished: state.courses.filter((course) => !course.estado).length,
-        active: state.courses.filter((course) => course.estado).length,
+        finished: state.courses.filter((course) => course.estado).length,
+        active: state.courses.filter((course) => !course.estado).length,
         totalCourses: state.courses.length,
       };
       return info;
@@ -81,6 +81,7 @@ export default new Vuex.Store({
           const user = userCredential.user;
           commit("SET_AUTH", true);
           commit("SET_CURRENT_USER", { email: user.email, id: user.uid });
+          alert(`Usuario ${user.email} creado con exito`);
           router.push("/");
           // ...
         })
@@ -97,6 +98,7 @@ export default new Vuex.Store({
           const user = userCredential.user;
           commit("SET_AUTH", true);
           commit("SET_CURRENT_USER", { email: user.email, id: user.uid });
+          alert(`Bienvenido ${user.email} `);
           router.push("/");
           // ...
         })
@@ -126,12 +128,13 @@ export default new Vuex.Store({
     async deleteCourse({ commit }, payload) {
       await deleteDoc(doc(db, "Cursos", payload));
       commit("DELETE_COURSE", payload);
+      alert("Curso eliminado con éxito");
     },
     async addCourse({ commit }, payload) {
       try {
         const docRef = await addDoc(collection(db, "Cursos"), payload);
-        console.log(docRef.id);
         commit("ADD_COURSE", { ...payload, id: docRef.id });
+        alert("Curso creado con éxito");
       } catch (error) {
         console.log(error);
       }
@@ -141,6 +144,7 @@ export default new Vuex.Store({
         await updateDoc(doc(db, "Cursos", payload.id), payload);
         commit("DELETE_COURSE", payload.id);
         commit("ADD_COURSE", payload);
+        alert("Curso actualizado con éxito");
       } catch (error) {
         console.log(error);
       }

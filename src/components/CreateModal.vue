@@ -84,9 +84,7 @@
         <template #modal-cancel
           ><span @click="cleanForm">Cancelar</span></template
         >
-        <template #modal-ok>
-          <span @click="createCurr">Crear curso</span></template
-        >
+        <template #modal-ok> <span @click="click">Crear curso</span></template>
       </b-modal>
     </div>
   </div>
@@ -154,6 +152,11 @@ export default {
       this.addCourse(newCourse);
       this.cleanForm();
       this.codeGenerator(0);
+    },
+    click() {
+      this.newCourse.inscritos < this.newCourse.cupos
+        ? this.createCurr()
+        : alert("Cantidad de cupos debe ser mayor que inscritos");
     },
   },
 };

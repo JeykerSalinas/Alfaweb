@@ -64,6 +64,14 @@
                   v-model="currentCourse.codigo"
                 ></b-form-input>
               </b-form-group>
+              <b-form-checkbox
+                v-model="currentCourse.estado"
+                name="check-button"
+                switch
+              >
+                Estado:
+                <b>({{ currentCourse.estado ? "Culminado" : "Activo" }})</b>
+              </b-form-checkbox>
               <b-form-group label="Descripción" label-for="textarea">
                 <b-form-textarea
                   id="textarea"
@@ -78,17 +86,25 @@
         </div>
         <template #modal-cancel><span>Cancelar</span></template>
         <template #modal-ok>
-          <span @click="updateCourse(currentCourse)"
-            >Actualizar curso</span
-          ></template
+          <span v-b-modal.updateModal>Actualizar curso</span></template
         >
       </b-modal>
     </div>
+    <b-modal id="updateModal" hide-header-close>
+      <p class="fw-bold">Esta acción modificará el curso actual</p>
+      <p>¿Seguro@ que desea continuar?</p>
+      <template #modal-cancel><span @click="cancel">Cancelar</span></template>
+      <template #modal-ok>
+        <span @click="updateCourse(currentCourse)"
+          >Actualizar curso</span
+        ></template
+      >
+    </b-modal>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   name: "EditModal",
   computed: {
@@ -96,6 +112,10 @@ export default {
   },
   methods: {
     ...mapActions(["updateCourse"]),
+    ...mapMutations(["SET_CURRENT_COURSE"]),
+    cancel() {
+      this.SET_CURRENT_COURSE({});
+    },
   },
 };
 </script>

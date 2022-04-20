@@ -11,7 +11,7 @@
           {{ data.item.costo.toLocaleString("DE-de") }}
         </template>
         <template #cell(estado)="data">
-          {{ data.item.estado ? "Si" : "No" }}
+          {{ data.item.estado ? "Culminado" : "Activo" }}
         </template>
         <template #cell(acciones)="data">
           <b-button
@@ -58,7 +58,7 @@ export default {
         "inscritos",
         "duracion",
         "costo",
-        { key: "estado", label: "Completado" },
+        "estado",
         "acciones",
       ],
     };

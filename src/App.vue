@@ -7,7 +7,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
+          <b-navbar-nav class="ml-auto w-100 justify-content-end">
             <b-nav-item>
               <router-link to="/administration" style="text-decoration: none">
                 Administración</router-link
