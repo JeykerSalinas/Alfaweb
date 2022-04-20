@@ -1,8 +1,8 @@
 <template>
-  <b-container class="about">
-    <h1>Administración</h1>
-    <div class="text-end my-4">
-      <b-button variant="info" v-b-modal.createModal
+  <b-container class="about" id="administration">
+    <h3>Administración</h3>
+    <div class="text-end mb-2">
+      <b-button variant="info" v-b-modal.createModal class="p-1"
         >Crear un nuevo curso</b-button
       >
     </div>
@@ -24,3 +24,8 @@ export default {
   },
 };
 </script>
+<style>
+#administration {
+  margin-top: 5rem;
+}
+</style>

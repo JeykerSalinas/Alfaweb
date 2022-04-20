@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="lg" class="px-5 border-bottom shadow-sm mb-5">
+      <b-navbar
+        toggleable="lg"
+        class="px-5 border-bottom shadow-sm mb-3 bg-white"
+        fixed="top"
+      >
         <b-navbar-brand tag="h1" class="mb-0">Alfaweb</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

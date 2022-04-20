@@ -16,3 +16,8 @@ export default {
   methods: {},
 };
 </script>
+<style scoped>
+.home {
+  margin-top: 5rem;
+}
+</style>

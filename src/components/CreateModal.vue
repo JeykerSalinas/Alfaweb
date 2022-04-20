@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-modal id="createModal" hide-header-close>
+      <b-modal id="createModal" hide-header-close :ok-disabled="validation">
         <div>
           <b-card bg-variant="light">
             <b-form-group
@@ -32,6 +32,15 @@
                   type="number"
                 ></b-form-input>
               </b-form-group>
+              <b-alert
+                show
+                variant="danger"
+                class="p-1 mh-1 mt-1"
+                v-if="newCourse.inscritos > newCourse.cupos"
+              >
+                Número de inscritos no puede superar al número de cupos</b-alert
+              >
+
               <b-form-group label="Inscritos" label-for="inscritos">
                 <b-form-input
                   v-model="newCourse.inscritos"
@@ -84,7 +93,9 @@
         <template #modal-cancel
           ><span @click="cleanForm">Cancelar</span></template
         >
-        <template #modal-ok> <span @click="click">Crear curso</span></template>
+        <template #modal-ok>
+          <span @click="click" style="">Crear curso</span></template
+        >
       </b-modal>
     </div>
   </div>
@@ -99,10 +110,10 @@ export default {
       newCourse: {
         nombre: "",
         img: "",
-        cupos: 0,
-        inscritos: 0,
-        duracion: 0,
-        costo: 0,
+        cupos: null,
+        inscritos: null,
+        duracion: null,
+        costo: null,
         descripcion: "",
         estado: false,
       },
@@ -117,6 +128,18 @@ export default {
   },
   computed: {
     ...mapGetters(["getCodes"]),
+    validation() {
+      return (
+        this.newCourse.nombre === "" ||
+        this.newCourse.img === "" ||
+        this.newCourse.cupos === 0 ||
+        this.newCourse.inscritos === 0 ||
+        this.newCourse.duracion === 0 ||
+        this.newCourse.costo === 0 ||
+        this.newCourse.descripcion === "" ||
+        this.newCourse.inscritos > this.newCourse.cupos
+      );
+    },
   },
   methods: {
     codeGenerator(num) {
@@ -154,9 +177,7 @@ export default {
       this.codeGenerator(0);
     },
     click() {
-      this.newCourse.inscritos < this.newCourse.cupos
-        ? this.createCurr()
-        : alert("Cantidad de cupos debe ser mayor que inscritos");
+      this.createCurr();
     },
   },
 };

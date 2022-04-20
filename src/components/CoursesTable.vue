@@ -1,7 +1,14 @@
 <template>
   <div>
     <b-container>
-      <b-table striped hover :items="courses" :fields="fields" responsive>
+      <b-table
+        hover
+        :items="courses"
+        :fields="fields"
+        responsive
+        outlined
+        small
+      >
         <template #cell(duracion)="data">
           {{
             data.item.duracion === 1 ? "1 mes" : data.item.duracion + " meses"

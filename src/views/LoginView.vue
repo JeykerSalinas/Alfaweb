@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="loggin">
     <b-container>
       <b-row>
         <b-col class="m-auto" cols="6">
@@ -70,3 +70,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+#loggin {
+  margin-top: 5rem;
+}
+</style>
