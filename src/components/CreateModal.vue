@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-modal id="createModal" hide-header-close :ok-disabled="validation">
+      <b-modal id="createModal" hide-header-close :ok-disabled="!validation">
         <div>
           <b-card bg-variant="light">
             <b-form-group
@@ -36,10 +36,11 @@
                 show
                 variant="danger"
                 class="p-1 mh-1 mt-1"
-                v-if="newCourse.inscritos > newCourse.cupos"
+                v-if="Number(newCourse.inscritos) > Number(newCourse.cupos)"
               >
                 Número de inscritos no puede superar al número de cupos</b-alert
               >
+              <span v-else></span>
 
               <b-form-group label="Inscritos" label-for="inscritos">
                 <b-form-input
@@ -93,9 +94,7 @@
         <template #modal-cancel
           ><span @click="cleanForm">Cancelar</span></template
         >
-        <template #modal-ok>
-          <span @click="click" style="">Crear curso</span></template
-        >
+        <template #modal-ok> <span @click="click">Crear curso</span></template>
       </b-modal>
     </div>
   </div>
@@ -130,14 +129,14 @@ export default {
     ...mapGetters(["getCodes"]),
     validation() {
       return (
-        this.newCourse.nombre === "" ||
-        this.newCourse.img === "" ||
-        this.newCourse.cupos === 0 ||
-        this.newCourse.inscritos === 0 ||
-        this.newCourse.duracion === 0 ||
-        this.newCourse.costo === 0 ||
-        this.newCourse.descripcion === "" ||
-        this.newCourse.inscritos > this.newCourse.cupos
+        this.newCourse.nombre &&
+        this.newCourse.img &&
+        this.newCourse.cupos &&
+        this.newCourse.inscritos &&
+        this.newCourse.duracion &&
+        this.newCourse.costo &&
+        this.newCourse.descripcion &&
+        Number(this.newCourse.inscritos) <= Number(this.newCourse.cupos)
       );
     },
   },
@@ -169,6 +168,9 @@ export default {
     createCurr() {
       const newCourse = {
         ...this.newCourse,
+        cupos: Number(this.newCourse.cupos),
+        inscritos: Number(this.newCourse.inscritos),
+        costo: Number(this.newCourse.costo),
         fecha: this.fecha,
         codigo: this.codigo,
       };
@@ -178,6 +180,7 @@ export default {
     },
     click() {
       this.createCurr();
+      this.$bvModal.hide("createModal");
     },
   },
 };

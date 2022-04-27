@@ -32,7 +32,9 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <router-view></router-view>
+    <transition>
+      <router-view :key="$route.path"></router-view>
+    </transition>
   </div>
 </template>
 <script>
@@ -55,7 +57,7 @@ export default {
 </script>
 <style>
 #app {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Verdana", sans-serif;
   color: #05194e;
   box-sizing: border-box;
   text-align: center;

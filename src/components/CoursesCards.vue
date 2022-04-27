@@ -9,18 +9,22 @@
         :key="course.id"
         class="text-start"
       >
-        <b-card
-          class="mb-3"
-          :title="course.nombre"
-          :img-src="course.img"
-          img-alt="Image"
-          img-top
-        >
+        <b-card class="mb-3" :title="course.nombre" img-alt="Image" img-top>
           <div
             :style="'background:url(' + course.img + '), heigth:200px'"
           ></div>
           <b-card-text>
             <b-list-group>
+              <b-list-group-item
+                :style="`
+                  background-image: url('${course.img}');
+                  height: 200px;
+                 width: 100%; 
+                  background-size: cover;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                `"
+              ></b-list-group-item>
               <b-list-group-item>Costo: {{ course.costo }}</b-list-group-item>
               <b-list-group-item
                 >Duración(meses): {{ course.duracion }}</b-list-group-item
@@ -62,6 +66,7 @@ export default {
 
 <style lang="scss" scoped>
 img {
-  width: 100px;
+  height: 100px;
+  width: 100%;
 }
 </style>

@@ -109,6 +109,7 @@ export default new Vuex.Store({
     },
     async logOut({ commit }) {
       const auth = getAuth();
+      console.log(auth);
       signOut(auth)
         .then(() => {
           commit("SET_AUTH", false);
@@ -140,10 +141,17 @@ export default new Vuex.Store({
       }
     },
     async updateCourse({ commit }, payload) {
+      const updatedCourse = {
+        ...payload,
+        cupos: Number(payload.cupos),
+        inscritos: Number(payload.inscritos),
+        costo: Number(payload.costo),
+      };
+      console.log(updatedCourse);
       try {
-        await updateDoc(doc(db, "Cursos", payload.id), payload);
-        commit("DELETE_COURSE", payload.id);
-        commit("ADD_COURSE", payload);
+        await updateDoc(doc(db, "Cursos", updatedCourse.id), updatedCourse);
+        commit("DELETE_COURSE", updatedCourse.id);
+        commit("ADD_COURSE", updatedCourse);
         alert("Curso actualizado con éxito");
       } catch (error) {
         console.log(error);

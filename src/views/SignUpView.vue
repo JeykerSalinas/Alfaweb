@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="signup">
     <b-container>
       <b-row>
         <b-col class="m-auto" cols="6">
@@ -69,3 +69,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.signup {
+  padding: 5rem;
+}
+</style>
