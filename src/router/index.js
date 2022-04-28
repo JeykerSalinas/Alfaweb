@@ -57,7 +57,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const isAuth = store.state.isAuth;
+  console.log(to.path);
   if (to.meta.requireAuth && !isAuth) next("/login");
+  else if (to.path === "/login" && isAuth) next("/");
   else next();
 });
 

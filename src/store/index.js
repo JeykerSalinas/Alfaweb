@@ -21,7 +21,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isAuth: true,
+    isAuth: false,
     currentUser: { email: "", id: "" },
     courses: [],
     currentCourse: {},
